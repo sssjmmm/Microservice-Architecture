@@ -122,8 +122,8 @@
 						</div>
 					</template>
 					<el-scrollbar style="height: 285px;">
-						<el-table :data="weather_forecast" style="width: 100%">
-							<el-table-column prop="date" label="Date" width="100" />
+						<el-table :data="weather_forecast" height=260 style="width: 100%">
+							<el-table-column prop="date" label="Date" width="110" />
 							<el-table-column prop="week" label="Week" width="100" />
 							<el-table-column prop="weather" label="Weather" width="100" />
 							<el-table-column prop="real" label="Real" width="100" />
@@ -154,13 +154,13 @@
 							<span>Province&Area</span>
 						</div>
 					</template>
-					<div class="align-left mb-10">
+					<div class="align-left mb-10 cool-word">
 						<div>Province: {{ province }}</div>
 						<div>Codes for the administrative divisions: {{ code }}</div>
 					</div>
 					<el-scrollbar style="height: 270px;">
-						<el-table :data="area" style="width: 100%">
-							<el-table-column prop="name" label="Name" width="250" />
+						<el-table :data="area" height=255 style="width: 100%">
+							<el-table-column prop="name" label="Name" width="254" />
 							<el-table-column prop="code" label="Code" width="550" />
 						</el-table>
 					</el-scrollbar>
@@ -174,7 +174,7 @@
 						</div>
 					</template>
 					<el-scrollbar style="height: 320px;">
-							<el-table :data="tourist_attraction" style="width: 100%">
+							<el-table :data="tourist_attraction"  height=300 style="width: 100%">
 							<el-table-column prop="name" label="Name" width="150" />
 							<el-table-column prop="content" label="Content" width="550" />
 							<el-table-column prop="province" label="Province" />
@@ -187,7 +187,7 @@
 
 		<el-row :gutter="20">
 			<el-col :span="20">
-				<el-card shadow="hover" class="color01" style="height: 454px">
+				<el-card shadow="hover" class="color01" style="height: 464px">
 					<!-- <schart ref="line" class="schart" canvasId="line" :options="options2"></schart> -->
 				<template #header>
 					<div class="api-title">
@@ -195,7 +195,7 @@
 					</div>
 				</template>
 				<el-scrollbar style="height: 334px;">
-					<el-table :data="cultural_tourism_news" style="width: 100%">
+					<el-table :data="cultural_tourism_news" height=320 style="width: 100%">
 						<el-table-column prop="ctime" label="Time" width="150" />
 						<el-table-column label="Picture">
 							<template #default="scope">
@@ -218,21 +218,21 @@
 					</template>
 					<!-- <el-button @click="getOilPrice">获取油价</el-button> -->
 					<el-dropdown @command="showOilPrice">
-					<el-button type="primary" plain>
-						选择油类别<el-icon class="el-icon--right"><arrow-down /></el-icon>
+					<el-button type="primary" plain class="wiki-button">
+						Choose Oil Type<el-icon class="el-icon--right"><arrow-down /></el-icon>
 					</el-button>
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item command="t0">0 # diesel oil price</el-dropdown-item>
 							<el-dropdown-item command="t89">89 # gasoline price</el-dropdown-item>
-							<el-dropdown-item command="t92">92号汽油油价</el-dropdown-item>
-							<el-dropdown-item command="t95">95号汽油油价</el-dropdown-item>
-							<el-dropdown-item command="t98">98号汽油油价</el-dropdown-item>
+							<el-dropdown-item command="t92">92 # gasoline price</el-dropdown-item>
+							<el-dropdown-item command="t95">95 # gasoline price</el-dropdown-item>
+							<el-dropdown-item command="t98">98 # gasoline price</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 					</el-dropdown>
-					<div style="margin-top: 10px;">
-						<el-text size="large" tag="b">油价：{{ oil_price_key }}元/升</el-text>
+					<div style="margin-top: 10px;" >
+						<el-text class="oil-prize" tag="b">Price：{{ oil_price_key }}￥/liter</el-text>
 					</div>
 				</el-card>
 				<el-card shadow="hover" class="color04" style="margin-top: 20px;">
@@ -244,8 +244,8 @@
 					</template>
 					<!-- <input class="inputbox" v-model="searchTerm" @keyup.enter="wikiSearch" /> -->
 					<!-- <button class="searchbtn" @click="wikiSearch">Search</button> -->
-					<el-button @click="visible = true">
-						维基百科，启动！
+					<el-button @click="visible = true" class="wiki-button">
+						Open Wikipedia
 					</el-button>
 				</el-card>
 			</el-col>
@@ -260,19 +260,19 @@
 						</div>
 					</template>
 
-					<div class="align-left mb-10">
-						更新时间：{{ last_update }}
+					<div class="align-left mb-10 cool-word">
+						Update Time: {{ last_update }}
 					</div>
 					<el-scrollbar style="height: 140px;">
-						<el-table :data="realtimeAqi" style="width: 100%">
-							<el-table-column prop="aqi" label="空气质量指数" width="99" />
-							<el-table-column prop="aqi_level" label="空气质量等级" width="99" />
-							<el-table-column prop="pm10" label="PM10浓度" width="99" />
-							<el-table-column prop="pm25" label="PM2.5浓度" width="99" />
-							<el-table-column prop="no2" label="二氧化碳浓度" width="99" />
-							<el-table-column prop="so2" label="二氧化硫浓度" width="99" />
-							<el-table-column prop="co" label="一氧化碳浓度" width="99" />
-							<el-table-column prop="o3" label="臭氧浓度" width="99" />
+						<el-table :data="realtimeAqi" style="width: 100%;" height=200 class="">
+							<el-table-column prop="aqi" label="Air quality index" width="140" />
+							<el-table-column prop="aqi_level" label="Air quality level" width="140" />
+							<el-table-column prop="pm10" label="PM10" width="88" />
+							<el-table-column prop="pm25" label="PM2.5" width="88" />
+							<el-table-column prop="no2" label="No2" width="87" />
+							<el-table-column prop="so2" label="So2" width="87" />
+							<el-table-column prop="co" label="Co" width="87" />
+							<el-table-column prop="o3" label="O3" width="87" />
 						</el-table>
 					</el-scrollbar>
 				</el-card>
@@ -297,6 +297,11 @@
 							<span>OTHER</span>
 						</div>
 					</template>
+					<div class="cool-text">
+						<div>Vue框架</div>
+						<div>Axios请求接口</div>
+						<div>完成时间：2023/10/20</div>
+					</div>
 				</el-card>
 			</el-col>
 		</el-row>
@@ -304,7 +309,7 @@
 
 		<el-drawer v-model="visible" :show-close="false">
 			<template #header="{ close, titleId, titleClass }">
-			<h4 :id="titleId" :class="titleClass">Wikipedia</h4>
+			<h1 :id="titleId" :class="titleClass">Wikipedia</h1>
 			<el-button type="danger" @click="close">
 				<el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
 				Close
@@ -321,7 +326,6 @@
 				</div>
 			</div>
 		</el-drawer>
-		<el-button class="cool-button">炫酷按钮</el-button>
 	</div>
 </template>
 
@@ -775,6 +779,81 @@ export default {
 };
 </script>
 <style scoped>
+
+
+/* 表格单元格样式 */
+  /* 表格部分样式
+   最外层透明 */
+::v-deep .el-table,
+::v-deep .el-table__expanded-cell {
+  background-color: transparent;
+  color: #e5e8ea;
+  font-size: 20px;
+}
+ 
+/* 表格内背景颜色  */
+::v-deep .el-table th,
+::v-deep .el-table tr,
+::v-deep .el-table td {
+  background-color: transparent;
+  border: 0px;
+  color: #93dcfe;
+  /* color: #4a7589; */
+  font-size: 14px;
+  height: 5px;
+  font-family: Source Han Sans CN Normal, Source Han Sans CN Normal-Normal;
+  font-weight: Normal;
+   /* 创建文本描边，设置描边宽度和颜色 */
+  text-shadow: 1px 1px 2px rgba(62, 53, 53, 0.5); 
+} 
+/* 去掉最下面的那一条线  */
+.el-table::before {
+  height: 0px;
+}
+ 
+/* 设置表格行高度 */
+::v-deep .el-table__body tr,
+::v-deep .el-table__body td {
+  padding: 0;
+  height: 30px;
+}
+ 
+/* 修改高亮当前行颜色 */
+::v-deep .el-table tbody tr:hover > td {
+  background: #063570 !important;
+}
+ 
+/* 取消当前行高亮 */
+::v-deep .el-table tbody tr {
+    pointer-events: none;
+}
+ 
+/* 修改表头样式-加边框 */
+::v-deep .el-table__header-wrapper {
+  	border: solid 1px #04c2ed;
+    box-sizing: border-box;
+}
+ 
+/* 表格斑马自定义颜色 */
+::v-deep .el-table__row.warning-row {
+  background: #063570;
+}
+ 
+/* 滚动条样式 */
+::v-deep .el-table__body-wrapper::-webkit-scrollbar-track {
+  background-color: #063570;
+}
+ 
+::v-deep .el-table__body-wrapper::-webkit-scrollbar {
+  width: 10px;
+  opacity: 0.5;
+}
+ 
+::v-deep .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background-color: #0257aa;
+}
+
 .cool-button {
   display: inline-block;
   padding: 10px 20px;
@@ -782,6 +861,19 @@ export default {
   background: linear-gradient(45deg, #ff6b6b, #607d8b);
   color: #0f0e0e;
   font-size: 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s;
+}
+.wiki-button {
+  display: inline-block;
+
+  border: none;
+  background: linear-gradient(45deg, #ff6b6b, #607d8b);
+  color: #0f0e0e;
+  font-size: 18px;
   border-radius: 5px;
   cursor: pointer;
   position: relative;
@@ -830,17 +922,34 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
 }
 .background {
- 	 width: 100%; /* 设置元素宽度 */
-  	height: 100%; /* 设置元素高度 */
+ 	width: 100%; /* 设置元素宽度 */
+	height: 100%; /* 设置元素高度 */
 	background-image: url('../assets/background.jpg');
- 	 background-size: cover; /* 设置背景图片的尺寸适应元素 */
- 	 /* 其他样式属性 */
+ 	background-size: cover; /* 设置背景图片的尺寸适应元素 */
+ 	/* 其他样式属性 */
+
+
 }
 .cool-text {
   font-size: 30px;
   font-weight: bold;
   color: rgba(232, 239, 240, 0.7); /* 设置文字颜色 */
   -webkit-text-stroke: 1px #ce1ce9; /* 创建文本描边，设置描边宽度和颜色 */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 添加文本阴影 */
+}
+
+.oil-prize{
+	font-size: 25px;
+	font-weight: bold;
+	color: rgba(232, 239, 240, 0.7); /* 设置文字颜色 */
+	-webkit-text-stroke: 0.5px #ad1cc4; /* 创建文本描边，设置描边宽度和颜色 */
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5); /* 添加文本阴影 */
+}
+.cool-word {
+  font-size: 15px;
+  font-weight: bold;
+  color: rgba(237, 241, 241, 0.7); /* 设置文字颜色 */
+  /* -webkit-text-stroke: 1px #ce1ce9; 创建文本描边，设置描边宽度和颜色 */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 添加文本阴影 */
 }
 .header-left-text {
@@ -937,7 +1046,7 @@ export default {
 }
 .bm-view {
   width: 100%;
-  height: 430px;
+  height: 420px;
 }
 .el-row {
 	margin-bottom: 20px;
@@ -954,7 +1063,10 @@ export default {
 	text-align: center;
 	font-size: 40px;
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	color: #362f2f;
+	font-weight: bold;
+	color: rgba(232, 239, 240, 0.9); /* 设置文字颜色 */
+	-webkit-text-stroke: 1px #490b52; /* 创建文本描边，设置描边宽度和颜色 */
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* 添加文本阴影 */
 }
 
 .grid-num {
@@ -1054,7 +1166,7 @@ export default {
 <!-- 百度地图和维基百科有冲突 -->
 <!-- 百度地图注释放开就会有些bug -->
 
-<!-- 1.上传github -->
+
 <!-- 2.弄右下角的文字 -->
 <!-- 3.解决地图的问题 -->
 <!-- 4.部署 -->
