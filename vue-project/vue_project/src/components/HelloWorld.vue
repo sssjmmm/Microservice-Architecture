@@ -256,29 +256,28 @@
 				<el-card shadow="hover" class="color02">
 					<template #header>
 						<div class="api-title">
-							<span>AirCondition</span>
+							<span>AirConditon</span>
 						</div>
 					</template>
 
-					<div class="align-left mb-10 cool-word">
-						Update Time: {{ last_update }}
-					</div>
 					<el-scrollbar style="height: 140px;">
-						<el-table :data="realtimeAqi" style="width: 100%;" height=200 class="">
-							<el-table-column prop="aqi" label="Air quality index" width="140" />
-							<el-table-column prop="aqi_level" label="Air quality level" width="140" />
-							<el-table-column prop="pm10" label="PM10" width="88" />
-							<el-table-column prop="pm25" label="PM2.5" width="88" />
-							<el-table-column prop="no2" label="No2" width="87" />
-							<el-table-column prop="so2" label="So2" width="87" />
-							<el-table-column prop="co" label="Co" width="87" />
-							<el-table-column prop="o3" label="O3" width="87" />
+						<el-table :data="air_conditon" style="width: 100%;" height=200 class="">
+							<el-table-column prop="so2" label="SO2" width="80" />
+							<el-table-column prop="o3" label="O3" width="80" />
+							<el-table-column prop="pm2_5" label="PM2.5" width="90" />
+							<el-table-column prop="co" label="CO" width="80" />
+							<el-table-column prop="num" label="Num" width="80" />
+							<el-table-column prop="no2" label="No2" width="80" />
+							<el-table-column prop="quality" label="Quality" width="90" />
+							<el-table-column prop="aqi" label="Aqi" width="80" />
+							<el-table-column prop="pm10" label="PM10" width="80" />
+							<el-table-column prop="o3_8h" label="O3" width="80" />
 						</el-table>
 					</el-scrollbar>
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card shadow="hover" class="color02" style="height: 280px;">
+				<el-card shadow="hover" class="color02" style="height: 250px;">
 					<template #header>
 						<div class="api-title">
 							<span>CityId</span>
@@ -291,12 +290,15 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card shadow="hover" class="color05" style="height: 280px;">
+				<el-card shadow="hover" class="color05" style="height: 250px;">
 					<template #header>
 						<div class="api-title">
 							<span>OTHER</span>
 						</div>
 					</template>
+					<el-button @click="show_history = true" class="wiki-button">
+						Historic Record
+					</el-button>
 					<div class="cool-text">
 						<div>Vue框架</div>
 						<div>Axios请求接口</div>
@@ -326,6 +328,23 @@
 				</div>
 			</div>
 		</el-drawer>
+		<el-drawer v-model="show_history" :show-close="false">
+			<template #header="{ close, titleId, titleClass }">
+			<h1 :id="titleId" :class="titleClass">History</h1>
+			<el-button type="danger" @click="close">
+				<el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
+				Close
+			</el-button>
+			<el-button type="primary" @click="getHistory">
+				<el-icon class="el-icon--left"><el-icon><Refresh /></el-icon></el-icon>
+				Refresh
+			</el-button>
+			</template>
+				<el-table :data="record_data" height=720 style="width: 100%; background-color: rgb(14, 60, 34);">
+						<el-table-column prop="time" label="Time" />
+						<el-table-column prop="key" label="Key" />
+				</el-table>
+		</el-drawer>
 	</div>
 </template>
 
@@ -350,6 +369,8 @@ export default {
 			//https://www.mxnzp.com ROLL
 			app_id: 'nrptqjkmouonxmmn',
 			app_secret: '8bh5CMKLpi1pxZLfzKk0DlDTPK2zk1kq',
+			//
+			key:'7d244947aac4cd0ce96f0737d6bcb55e',
 
 			// 接口1参数
 			tourist_attraction: [],
@@ -375,8 +396,7 @@ export default {
 			oil_price_key: '',
 
 			//接口7参数：空气质量
-			last_update: '',
-			realtimeAqi: [],
+			air_conditon:[],
 
 			//接口8参数：城市id
 			areacode: '',
@@ -389,6 +409,11 @@ export default {
 			showResults: true,
 
 			visible: false,
+
+			//数据库参数
+			show_history:false,
+			record_data:[],
+
         };
     },
     components:{
@@ -436,21 +461,80 @@ export default {
 				this.$refs.inputbox.focus();
 			}
 		},
-		async testData() {
+		async postHistory() {
+			// 创建一个新的 Date 对象以获取当前时间
+			const date = new Date();
 
-			// 发送API请求
-			axios.get(`https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&origin=*&gsrsearch=%E4%B8%8A%E6%B5%B7`)
-			.then(response => {
-				ElMessage({
-						showClose: true,
-						message: 'API: Congrats, request successful.',
-						type: 'success',
-					})
-				console.log(response.data)
+			// 获取小时、分钟和秒
+
+			const year = date.getFullYear();
+			const month = date.getMonth() + 1;
+			const day = date.getDate();
+			const hour = date.getHours();
+			const minute = date.getMinutes();
+			const second = date.getSeconds();
+
+			// 格式化时间为字符串
+			const format_time = `${year}年${month}月${day}日${hour}时${minute}分${second}秒`;
+			// Import Axios
+			const axios = require('axios');
+
+			// Define the base URL
+			const apiUrl = 'http://localhost:8888/api/mgr/citylog';
+
+			// Construct the payload for adding a customer
+			const addCustomerPayload = {
+			action: 'add_city',
+			data: {
+				key: this.city,
+				time: format_time,
+			},
+			};
+
+			// Send a POST request to add a customer
+			await axios
+			.post(apiUrl, addCustomerPayload)
+			.then((response) => {
+				console.log(response.data);
 			})
-			.catch(error => {
-				console.error('API请求失败:', error);
+			.catch((error) => {
+				console.error('Error:', error);
 			});
+		},		
+		async testData2() {
+			try {
+				await axios.get(`http://localhost:8888/api/mgr/citylog?action=list_city`)
+				.then((response) => {
+					// 请求成功时的处理
+					console.log(response.data.retlist)
+				})
+				.catch((error) => {
+					// 请求失败时的处理
+					console.error('Error:', error);
+				});
+			} catch (error) {
+				this.error = error;
+			}
+		
+		},
+		async testData3() {
+			// 创建一个新的 Date 对象以获取当前时间
+			const 当前时间 = new Date();
+
+			// 获取小时、分钟和秒
+
+			const nian = 当前时间.getFullYear()
+			const 小时 = 当前时间.getHours();
+			const 分钟 = 当前时间.getMinutes();
+			const 秒 = 当前时间.getSeconds();
+
+			// 格式化时间为字符串
+			const 格式化时间 = `${nian}年${小时}时${分钟}分${秒}秒`;
+
+			// 输出格式化后的时间
+			console.log('当前时间：' + 格式化时间);
+		
+		
 		},			
 		async getCityAreacode() {
 			const axios = require('axios');
@@ -496,48 +580,36 @@ export default {
 				})
 			});
 		},		
-		async getAirCondition() {
-			const axios = require('axios');
-
-			// 设置API请求参数
-			const apiUrl = 'https://eolink.o.apispace.com/34324/air/v001/aqi';
-			const params = {
-			// 请求参数
-				areacode: this.areacode,
-			};
-				
-			// 配置请求头
-			const headers = {
-			"X-APISpace-Token":"baf5hkeppcbwg3bmalc97i442zknhs6q",
-			"Authorization-Type":"apikey"
-			};
-
-			// 创建Axios配置对象
-			const axiosConfig = {
-			headers: headers, // 设置请求头
-			};
-
-			// 发送API请求
-			axios.get(apiUrl, { params, ...axiosConfig })
-			.then(response => {
-				// 处理响应
-				this.last_update = response.data.result.last_update;
-				this.realtimeAqi[0] = response.data.result.realtimeAqi;
-				ElMessage({
-					showClose: true,
-					message: 'AirCondition: Congrats, request successfully.',
-					type: 'success',
+		async getAirConditon() {
+			try {
+				await axios.get(`https://apis.tianapi.com/aqi/index?key=${this.API_KEY}&area=${this.city}`)
+				.then((response) => {
+					// 请求成功时的处理
+					console.log(response.data.result)
+					this.air_conditon.push(response.data.result)
+					ElMessage({
+						showClose: true,
+						message: 'AirConditon: Congrats, request successfully.',
+						type: 'success',
+					})
 				})
-			})
-			.catch(error => {
-				console.error('API请求失败:', error);
+				.catch((error) => {
+					// 请求失败时的处理
+					console.error('Error:', error);
+					ElMessage({
+						showClose: true,
+						message: 'AirConditon: Oops, request failed.',
+						type: 'error',
+					})
+				});
+			} catch (error) {
+				this.error = error;
 				ElMessage({
 					showClose: true,
-					message: 'AirCondition: Oops, request failed.',
+					message: 'AirConditon: Oops, request failed.',
 					type: 'error',
 				})
-				
-			});
+			}
 		},
 		async getOilPrice() {
 			try {
@@ -706,7 +778,7 @@ export default {
 			await this.getProvinceArea(); //先加载接口5，获取省份
 			console.log("调用接口5")
 			console.log("调用接口6")
-			await this.getCityAreacode(); //先加载接口8，获取areacode
+			// await this.getCityAreacode(); //先加载接口8，获取areacode
 			console.log("调用接口8")
 			await this.getTouristAttraction();
 			console.log("调用接口1")
@@ -717,10 +789,12 @@ export default {
 			
 			// await this.getOilPrice();//需要province
 			// console.log("调用接口6")
-			await this.getAirCondition();
+			await this.getAirConditon();
 			console.log("调用接口7")
 			await this.wikiSearch();
 			console.log("调用接口9")
+			await this.getHistory();
+			console.log("调用接口10")
 
 		},
 		showOilPrice(command) {
@@ -749,12 +823,15 @@ export default {
 			this.searchTerm = this.keyword;
 			console.log(this.city);
 			this.init();
+			this.postHistory();
 		},
 		changeProviceKey(old_province){
+			//目标格式：
 			//安徽、北京、重庆、福建、甘肃、广东、广西、贵州、海南、
 			//河北、黑龙江、河南、湖北、湖南、江苏、江西、吉林、辽宁、
 			//内蒙古、宁夏、青海、陕西、上海、山东、山西、四川、天津、西藏、新疆、云南、浙江
-
+			
+			//需要转化的省份：
 			//广西壮族自治区 内蒙古自治区 黑龙江省 宁夏回族自治区 西藏自治区 新疆维吾尔自治区
 			if(old_province == '内蒙古自治区' || old_province == '黑龙江省'){
 				this.province = old_province.substr(0,3);
@@ -763,7 +840,24 @@ export default {
 				this.province = old_province.substr(0,2);
 			}
 
+		},
+		async getHistory(){
+			try {
+				await axios.get(`http://localhost:8888/api/mgr/citylog?action=list_city`)
+				.then((response) => {
+					// 请求成功时的处理
+					this.record_data = response.data.retlist;
+					console.log(response.data.retlist)
+				})
+				.catch((error) => {
+					// 请求失败时的处理
+					console.error('Error:', error);
+				});
+			} catch (error) {
+				this.error = error;
+			}
 		}
+
 
     },
     computed: {
@@ -1161,12 +1255,5 @@ export default {
 }
 </style>
 
-
-
-<!-- 百度地图和维基百科有冲突 -->
-<!-- 百度地图注释放开就会有些bug -->
-
-
-<!-- 2.弄右下角的文字 -->
-<!-- 3.解决地图的问题 -->
-<!-- 4.部署 -->
+<!-- 部署 -->
+<!-- 文档 -->
