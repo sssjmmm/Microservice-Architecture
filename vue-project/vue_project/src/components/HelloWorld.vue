@@ -176,7 +176,7 @@
 					<el-scrollbar style="height: 320px;">
 							<el-table :data="tourist_attraction"  height=300 style="width: 100%">
 							<el-table-column prop="name" label="Name" width="150" />
-							<el-table-column prop="content" label="Content" width="550" />
+							<el-table-column prop="content" label="Content" width="500" />
 							<el-table-column prop="province" label="Province" />
 						</el-table>
 					</el-scrollbar>
@@ -341,7 +341,7 @@
 			</el-button>
 			</template>
 				<el-table :data="record_data" height=720 style="width: 100%; background-color: rgb(14, 60, 34);">
-						<el-table-column prop="time" label="Time" />
+						<el-table-column prop="time" label="Time"/>
 						<el-table-column prop="key" label="Key" />
 				</el-table>
 		</el-drawer>
@@ -480,7 +480,7 @@ export default {
 			const axios = require('axios');
 
 			// Define the base URL
-			const apiUrl = 'http://localhost:8888/api/mgr/citylog';
+			const apiUrl = 'http://100.80.67.59/api/mgr/citylog';
 
 			// Construct the payload for adding a customer
 			const addCustomerPayload = {
@@ -778,7 +778,7 @@ export default {
 			await this.getProvinceArea(); //先加载接口5，获取省份
 			console.log("调用接口5")
 			console.log("调用接口6")
-			// await this.getCityAreacode(); //先加载接口8，获取areacode
+			await this.getCityAreacode(); //先加载接口8，获取areacode
 			console.log("调用接口8")
 			await this.getTouristAttraction();
 			console.log("调用接口1")
@@ -787,8 +787,8 @@ export default {
 			await this.getWeatherForecast();
 			console.log("调用接口3")
 			
-			// await this.getOilPrice();//需要province
-			// console.log("调用接口6")
+			await this.getOilPrice();//需要province
+			console.log("调用接口6")
 			await this.getAirConditon();
 			console.log("调用接口7")
 			await this.wikiSearch();
@@ -843,7 +843,7 @@ export default {
 		},
 		async getHistory(){
 			try {
-				await axios.get(`http://localhost:8888/api/mgr/citylog?action=list_city`)
+				await axios.get(`http://100.80.67.59/api/mgr/citylog?action=list_city`)
 				.then((response) => {
 					// 请求成功时的处理
 					this.record_data = response.data.retlist;
@@ -1254,6 +1254,3 @@ export default {
   color: #42b983; /* 你可以自定义颜色 */
 }
 </style>
-
-<!-- 部署 -->
-<!-- 文档 -->

@@ -1,37 +1,3 @@
-# 一级标题
-## 二级标题
-### 三级标题
-
-1. 有序列表项1
-2. 有序列表项2
-
-- 无序列表项1
-- 无序列表项2
-
-[Google](https://www.google.com)
-
-![示例图片](https://example.com/image.jpg)
-
-> 这是引用的文本
-
-**粗体**
-*斜体*
-
-`function()`
-
-```
-\\代码块
-function hello(){
-
-}
-```
-
----
-***
-___
-
-
-
 # Application Design and Implementation Report
 
 ## Introduction
@@ -79,7 +45,9 @@ ___
 
 - Nginx：作为反向代理服务器，Nginx将用于将前端和后端组件组合在一起，并提供更好的性能。
 
-- 云托管：我计划将我的应用程序部署到阿里云提供商，以确保高可用性和扩展性。
+- uWSGI: 通过 WSGI 协议与 Python 应用程序通信。
+
+- ubuntu虚拟机：我计划暂时将我的应用程序前端部署到本机，后端部署到ubuntu版本的linux虚拟机，以确保高可用性和扩展性。
 ---
 
 ## 实现细节
@@ -596,4 +564,7 @@ ElMessage({
 
 - 解决跨域问题
 > https://blog.csdn.net/qq_41866851/article/details/118528460
+
+- 后端部署
+> https://zhuanlan.zhihu.com/p/549354781
    
