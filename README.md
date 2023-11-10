@@ -54,45 +54,45 @@
 
 ### 前端实现
 #### 界面总览
-![](../doc/img/img05.png)
-![](../doc/img/img06.png)
+![](doc/img/img05.png)
+![](doc/img/img06.png)
 #### 1. 前端页面结构
 
 我的前端页面结构包括以下主要部分：
 
 - **城市名输入框**：用户输入城市名称并进行搜索的入口el-input组件。
-![](../doc/img/img01.png)
+![](doc/img/img01.png)
 - **文旅版块**：显示有关城市文化和旅游信息的部分。
-![](../doc/img/img02.png)
+![](doc/img/img02.png)
 1. 城市旅游景点：展示了该城市十个著名旅游景点的名称和简介，帮助用户更好地了解该地旅游信息。
-![](../doc/img/img07.png)
+![](doc/img/img07.png)
 2. 文旅新闻：展示了该地文旅新闻的时间、标题、封面、来源以及url，让用户对文旅信息有更深入的认识。
-![](../doc/img/img08.png)
+![](doc/img/img08.png)
 
 - **地理信息版块**：显示有关城市地理位置和地图的信息。
-![](../doc/img/img04.png)
+![](doc/img/img04.png)
 1. 百度地图：可进行地图的缩放以及定位，让用户对该城市的方位在总体上有更好的把握。
-![](../doc/img/img09.png)
+![](doc/img/img09.png)
 2. 省份以及各区信息：展示了该城市所在省份的信息以及该城的行政区编码，并且展示了该城下各个区的名称以及编码信息。
-![](../doc/img/img10.png)
+![](doc/img/img10.png)
   
 - **生活指南版块**：提供关于城市生活、油价和天气预报的部分。 
-![](../doc/img/img03.png)
+![](doc/img/img03.png)
 1. 城市油价：展示了该城市油价信息，包括0号柴油、89号汽油、92号汽油、95号汽油、98号汽油的油价信息。
-![](../doc/img/img11.png)
-![](../doc/img/img12.png)
+![](doc/img/img11.png)
+![](doc/img/img12.png)
 2. 空气质量：展示了该城市的空气质量信息，包括PM2.5,PM10等。
-![](../doc/img/img13.png)
+![](doc/img/img13.png)
 3. 城市ID及归属：展示了该城市的城市areacode及归属。
-![](../doc/img/img14.png)
+![](doc/img/img14.png)
 4. 天气预报：展示了该城市往后一周的天气预报信息，帮助用户出行无忧。
-![](../doc/img/img15.png)
+![](doc/img/img15.png)
 - **维基百科**：展示十条以该城市为关键词搜索后得到的百科信息，收藏在侧边抽屉中。
-![](../doc/img/img16.png)
-![](../doc/img/img17.png)
+![](doc/img/img16.png)
+![](doc/img/img17.png)
 - **历史记录**：展示用户之前的查询记录，并提供刷新功能，收藏在侧边抽屉中。
-![](../doc/img/img18.png)
-![](../doc/img/img19.png)
+![](doc/img/img18.png)
+![](doc/img/img19.png)
 #### 2. Vue 组件
 
 我使用了第三方组件库Element-plus来管理不同部分的界面：
@@ -351,7 +351,7 @@ CORS_ALLOW_HEADERS = (
 ### 历史记录功能
 
 - 当用户进行城市查询时，查询记录将存储在SQLite数据库中，包括城市名称和查询时间。
-![](../doc/img/img20.png)
+![](doc/img/img20.png)
 - 用户可以在历史记录页面查看之前的查询，并点击以重新加载相关城市信息。
 
 ---
